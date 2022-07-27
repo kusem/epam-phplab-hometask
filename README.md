@@ -9,7 +9,7 @@
  * Create your own repository with the same name "
    phplab-tasks-2022" in your account
  * Clone repository to your PC
- * Clone this repository copy and move file to your repository
+ * Clone this repository copy and move files to your repository
  * `cd` into your repository folder
  * Execute in terminal `composer install`
  

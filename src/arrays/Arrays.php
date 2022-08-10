@@ -28,7 +28,16 @@ class Arrays implements ArraysInterface
      */
     public function getUniqueValue(array $input): int
     {
-        $uniqueArray = array_unique($input, SORT_NUMERIC);
+        $uniqueArray = array_unique($input, SORT_NUMERIC);   //getting single values
+
+        $count_values = array_count_values($input);
+        foreach ($uniqueArray as $value) {                        //converting single values array into unique values
+            if ($count_values[$value] > 1) {
+                $key = array_search($value, $uniqueArray);
+                unset($uniqueArray[$key]);
+            }
+        }
+
         if (count($uniqueArray) == 0) {
             return 0;
         } else {

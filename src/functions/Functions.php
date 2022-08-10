@@ -19,6 +19,8 @@
 
 namespace functions;
 
+use InvalidArgumentException;
+
 class Functions
 {
     /**
@@ -53,12 +55,13 @@ class Functions
      *
      * @param $arg
      * @return string
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function sayHelloArgumentWrapper($arg): string
     {
-        // put your code here
-
+        if (!is_bool($arg) and !is_int($arg) and !is_string($arg)) {
+            throw new InvalidArgumentException('Wrong argument type.');
+        }
         return $this->sayHelloArgument($arg);
     }
 
@@ -87,10 +90,15 @@ class Functions
      * @see https://www.php.net/manual/en/migration56.new-features.php#migration56.new-features.splat
      *
      * @return array
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function countArgumentsWrapper(): array
+    public function countArgumentsWrapper(...$arguments): array
     {
-        // put your code here
+        foreach ($arguments as $arg) {
+            if (!is_string($arg)) {
+                throw new InvalidArgumentException();
+            }
+        }
+        return $this->countArguments($arguments);
     }
 }

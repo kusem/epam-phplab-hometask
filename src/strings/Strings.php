@@ -44,7 +44,7 @@ class Strings implements StringsInterface
      */
     public function getBrandName(string $noun): string
     {
-        if ($noun[0] == $noun[strlen($noun) - 1]) {
+        if ($noun[0] === $noun[strlen($noun) - 1]) {
             return strtoupper($noun[0]) . substr($noun, 1, strlen($noun) - 1) . substr($noun, 1, strlen($noun) - 1);
         } else {
             return "The " . strtoupper($noun[0]) . substr($noun, 1, strlen($noun) - 1);

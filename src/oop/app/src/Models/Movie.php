@@ -11,13 +11,6 @@ class Movie implements MovieInterface
     /**
      * @inheritDoc
      */
-    public function __construct($title, $poster, $description)
-    {
-        $this->setTitle($title);
-        $this->setPoster($poster);
-        $this->setDescription($description);
-    }
-
     public function getTitle(): string
     {
         return $this->title;

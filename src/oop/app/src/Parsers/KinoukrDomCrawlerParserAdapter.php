@@ -7,12 +7,16 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class KinoukrDomCrawlerParserAdapter implements ParserInterface
 {
-    private $crawler;
+    private Crawler $crawler;
+
+    public function __construct(string $siteContent){
+        $this->crawler = new Crawler($siteContent);
+    }
 
     /**
      * Parses link to poster image from original HTML page
      *
-     * @param string $rawHTML
+     * @param $crawler
      * @return string
      */
     public function getPoster($crawler): string
@@ -42,9 +46,8 @@ class KinoukrDomCrawlerParserAdapter implements ParserInterface
         return trim($crawler->filterXPath('//*[@id="fdesc"]')->text());
     }
 
-    public function parseContent(string $siteContent)
+    public function parseContent(string $siteContent): Movie
     {
-        $this->crawler = new Crawler($siteContent);
         $title = $this->getMovieName($this->crawler);
         $poster = $this->getPoster($this->crawler);
         $description = $this->getMovieDescription($this->crawler);

@@ -18,18 +18,18 @@ class basics implements BasicsInterface
     {
         $this->validator->isMinutesException($minute);
 
-        if ($minute > 45 | $minute == 0) {
-            return "fourth";
+        if ($minute > 45 || $minute == 0) {
+            return 'fourth';
         }
         if ($minute <= 15) {
-            return "first";
+            return 'first';
         }
 
         if ($minute <= 30) {
-            return "second";
+            return 'second';
         }
 
-        return "third";
+        return 'third';
     }
 
     /**
@@ -59,6 +59,6 @@ class basics implements BasicsInterface
             (int)$convertedString[4] +
             (int)$convertedString[5];
 
-        return $firstHalf == $secondHalf;
+        return $firstHalf === $secondHalf;
     }
 }

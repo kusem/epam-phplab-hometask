@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-class CountArgumentsTest extends TestCase
+class countArgumentsTest extends TestCase
 {
     protected $functions;
 
@@ -16,7 +16,7 @@ class CountArgumentsTest extends TestCase
         $this->assertEquals(
             [
                 'argument_count' => 1,
-                'argument_values' => Array (0 => '#russiaisaterroriststate'),
+                'argument_values' => [0 => '#russiaisaterroriststate'],
             ],
             $this->functions->countArguments('#russiaisaterroriststate')
         );
@@ -30,7 +30,7 @@ class CountArgumentsTest extends TestCase
         $this->assertEquals(
             [
                 'argument_count' => 0,
-                'argument_values' => Array (),
+                'argument_values' => [],
             ],
             $this->functions->countArguments()
         );

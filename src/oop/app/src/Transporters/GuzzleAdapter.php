@@ -3,7 +3,6 @@
 namespace src\oop\app\src\Transporters;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
 
 class GuzzleAdapter implements TransportInterface
 {

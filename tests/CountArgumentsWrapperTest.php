@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-class CountArgumentsWrapperTest extends TestCase
+class countArgumentsWrapperTest extends TestCase
 {
     protected $functions;
 
@@ -14,8 +14,6 @@ class CountArgumentsWrapperTest extends TestCase
     public function testNegative()
     {
         $this->expectException(InvalidArgumentException::class);
-
         $this->functions->countArgumentsWrapper(2, 4, 0, 2, ['russiaisaterroriststate']);
     }
-
 }

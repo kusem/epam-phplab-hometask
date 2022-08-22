@@ -21,6 +21,9 @@ namespace functions;
 
 use InvalidArgumentException;
 
+use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\throwException;
+
 class Functions
 {
     /**
@@ -62,7 +65,6 @@ class Functions
         if (!is_bool($arg) and !is_int($arg) and !is_string($arg)) {
             throw new InvalidArgumentException('Wrong argument type.');
         }
-
         return $this->sayHelloArgument($arg);
     }
 
@@ -93,9 +95,9 @@ class Functions
      * @return array
      * @throws InvalidArgumentException
      */
-    public function countArgumentsWrapper(...$arguments): array
+    public function countArgumentsWrapper(): array
     {
-        foreach ($arguments as $arg) {
+        foreach (func_get_args() as $arg) {
             if (!is_string($arg)) {
                 throw new InvalidArgumentException();
             }

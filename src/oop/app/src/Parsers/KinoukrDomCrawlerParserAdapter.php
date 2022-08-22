@@ -8,9 +8,11 @@ use Symfony\Component\DomCrawler\Crawler;
 class KinoukrDomCrawlerParserAdapter implements ParserInterface
 {
     private Crawler $crawler;
+    private Movie $movie;
 
-    public function __construct(string $siteContent){
-        $this->crawler = new Crawler($siteContent);
+    public function __construct(){
+        $this->crawler = new Crawler();
+        $this->movie = new Movie();
     }
 
     /**
@@ -19,9 +21,9 @@ class KinoukrDomCrawlerParserAdapter implements ParserInterface
      * @param $crawler
      * @return string
      */
-    public function getPoster($crawler): string
+    public function getPoster(): string
     {
-        return $crawler->filterXPath('//*[@id="dle-content"]/div/article/div[1]/div[2]/div[1]/div[1]/a')->attr('href');
+        return $this->crawler->filterXPath('//*[@id="dle-content"]/div/article/div[1]/div[2]/div[1]/div[1]/a')->attr('href');
     }
 
     /**
@@ -30,28 +32,30 @@ class KinoukrDomCrawlerParserAdapter implements ParserInterface
      * @param string $rawHTML
      * @return string
      */
-    public function getMovieName($crawler): string
+    public function getMovieName(): string
     {
-        return trim($crawler->filterXPath('//*[@id="fheader"]/h1')->text());
+        return trim($this->crawler->filterXPath('//*[@id="fheader"]/h1')->text());
     }
 
     /**
      * Parses movie description from original HTML page
      *
-     * @param string $rawHTML
+     * @param $crawler
      * @return string
      */
-    public function getMovieDescription($crawler): string
+    public function getMovieDescription(): string
     {
-        return trim($crawler->filterXPath('//*[@id="fdesc"]')->text());
+        return trim($this->crawler->filterXPath('//*[@id="fdesc"]')->text());
     }
 
     public function parseContent(string $siteContent): Movie
     {
-        $title = $this->getMovieName($this->crawler);
-        $poster = $this->getPoster($this->crawler);
-        $description = $this->getMovieDescription($this->crawler);
+        $this->crawler->addContent($siteContent);
 
-        return new Movie($title, $poster, $description);
+        $this->movie->setTitle($this->getMovieName($siteContent));
+        $this->movie->setPoster($this->getPoster($siteContent));
+        $this->movie->setDescription($this->getMovieDescription($siteContent));
+
+        return $this->movie;
     }
 }

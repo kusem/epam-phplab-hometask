@@ -9,16 +9,16 @@ class Arrays implements ArraysInterface
      */
     public function repeatArrayValues(array $input): array
     {
-        $new_array = [];
-        if (count($input) != 0) {
-            foreach ($input as $currentElement) {
-                for ($i = $currentElement; $i > 0; $i--) {
-                    $new_array[] = $currentElement;
-                }
-            }
-        }
-
-        return $new_array;
+        return array_merge(
+            ...array_map(
+                   fn(int $values): array => array_fill(
+                       0,
+                       $values,
+                       $values
+                   ),
+                   $input
+               )
+        );
     }
 
     /**
@@ -26,21 +26,17 @@ class Arrays implements ArraysInterface
      */
     public function getUniqueValue(array $input): int
     {
-        $uniqueArray = array_unique($input, SORT_NUMERIC);   //getting single values
-        $count_values = array_count_values($input);
+        $uniqueArray = array_unique($input, SORT_NUMERIC);
+        sort($uniqueArray);
+        $countValues = array_count_values($input);
 
-        foreach ($uniqueArray as $value) {                        //converting single values array into unique values
-            if ($count_values[$value] > 1) {
-                $key = array_search($value, $uniqueArray);
-                unset($uniqueArray[$key]);
+        foreach ($uniqueArray as $value) {
+            if ($countValues[$value] === 1) {
+                return $value;
             }
         }
 
-        if (count($uniqueArray) == 0) {
-            return 0;
-        } else {
-            return min($uniqueArray);
-        }
+        return 0;
     }
 
 
@@ -50,17 +46,12 @@ class Arrays implements ArraysInterface
     public function groupByTag(array $input): array
     {
         $resultArray = [];
-        $tagsArray = [];
+        sort($input);
 
         foreach ($input as $currentElement) {
             foreach ($currentElement['tags'] as $currentElementTag) {
-                $tagsArray[$currentElementTag][] = $currentElement['name'];
+                $resultArray[$currentElementTag][] = $currentElement['name'];
             }
-        }
-
-        foreach ($tagsArray as $currentTagName => $currentTagContent) {
-            sort($currentTagContent);
-            $resultArray[$currentTagName] = $currentTagContent;
         }
 
         return $resultArray;

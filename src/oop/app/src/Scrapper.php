@@ -10,15 +10,22 @@
 
 namespace src\oop\app\src;
 
+use src\oop\app\src\Parsers\ParserInterface;
+use src\oop\app\src\Transporters\TransportInterface;
+
 class Scrapper
 {
-    private $getBody;
-    private $parseBody;
+    private TransportInterface $getBody;
+    private ParserInterface $parseBody;
 
-    public function __construct($getBodyContent, $parseBodyContent)
+    /**
+     * @param TransportInterface $transport
+     * @param ParserInterface $parseMethod
+     */
+    public function __construct(TransportInterface $transport, ParserInterface $parseMethod)
     {
-        $this->getBody = $getBodyContent;
-        $this->parseBody = $parseBodyContent;
+        $this->getBody = $transport;
+        $this->parseBody = $parseMethod;
     }
 
     public function getMovie(string $url)

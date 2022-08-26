@@ -10,7 +10,8 @@ class KinoukrDomCrawlerParserAdapter implements ParserInterface
     private Crawler $crawler;
     private Movie $movie;
 
-    public function __construct(Crawler $crawler,Movie $movie){
+    public function __construct(Crawler $crawler, Movie $movie)
+    {
         $this->crawler = $crawler;
         $this->movie = $movie;
     }
@@ -22,7 +23,8 @@ class KinoukrDomCrawlerParserAdapter implements ParserInterface
      */
     public function getPoster(): string
     {
-        return $this->crawler->filterXPath('//*[@id="dle-content"]/div/article/div[1]/div[2]/div[1]/div[1]/a')->attr('href');
+        return $this->crawler
+            ->filterXPath('//*[@id="dle-content"]/div/article/div[1]/div[2]/div[1]/div[1]/a')->attr('href');
     }
 
     /**

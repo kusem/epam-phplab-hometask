@@ -10,15 +10,14 @@ class KinoukrDomCrawlerParserAdapter implements ParserInterface
     private Crawler $crawler;
     private Movie $movie;
 
-    public function __construct(){
-        $this->crawler = new Crawler();
-        $this->movie = new Movie();
+    public function __construct(Crawler $crawler,Movie $movie){
+        $this->crawler = $crawler;
+        $this->movie = $movie;
     }
 
     /**
      * Parses link to poster image from original HTML page
      *
-     * @param $crawler
      * @return string
      */
     public function getPoster(): string
@@ -29,7 +28,6 @@ class KinoukrDomCrawlerParserAdapter implements ParserInterface
     /**
      * Parses movie title from original HTML page
      *
-     * @param string $rawHTML
      * @return string
      */
     public function getMovieName(): string

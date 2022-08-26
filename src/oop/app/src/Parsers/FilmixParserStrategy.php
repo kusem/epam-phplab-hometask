@@ -11,9 +11,9 @@ class FilmixParserStrategy implements ParserInterface
     /**
      * Generating Movie class just after class init
      */
-    public function __construct()
+    public function __construct(Movie $movie)
     {
-        $this->movie = new Movie();
+        $this->movie = $movie;
     }
 
     /**

@@ -29,7 +29,60 @@ foreach (require_once('../web/airports.php') as $item) {
         $cityId = $city['id'];
     }
 
-    // TODO States
 
-    // TODO Airports
+
+    // States
+    // To check if State with this name exists in the DB we need to SELECT it first
+    $stateQ = $pdo->prepare('SELECT id FROM states WHERE state = :state');
+    $stateQ->setFetchMode(\PDO::FETCH_ASSOC);
+    $stateQ->execute(['state' => $item['state']]);
+    $state = $stateQ->fetch();
+
+    // If result is empty - we need to INSERT city
+    if (!$state) {
+        $stateQ = $pdo->prepare('INSERT INTO states (state) VALUES (:state)');
+        $stateQ->execute(['state' => $item['state']]);
+
+        // We will use this variable to INSERT state
+        $stateId = $pdo->lastInsertId();
+    } else {
+        // We will use this variable to INSERT state
+        $stateId = $state['id'];
+    }
+
+
+    // To check if Airport with this name and props exists in the DB we need to SELECT it first
+    $airportQ = $pdo->prepare('SELECT id FROM airports WHERE code = :code');
+    $airportQ->setFetchMode(\PDO::FETCH_ASSOC);
+    $airportQ->execute(['code' => $item['code']]);
+    $airport = $airportQ->fetch();
+
+    // If result is empty - we need to INSERT airport
+    if (!$airport) {
+        $airportQ = $pdo->prepare(
+            'INSERT INTO airports (
+                      `name`, 
+                      `code`,
+                      `city_id`,
+                      `state_id`,
+                      `address`,
+                      `timezone`
+                      ) VALUES (
+                                :name,
+                                :code,
+                                :city_id,
+                                :state_id,
+                                :address,
+                                :timezone
+                                )');
+        $airportQ->execute(
+            [
+                'name' => $item['name'],
+                'code' => $item['code'],
+                'city_id' => $cityId,
+                'state_id' => $stateId,
+                'address' => $item['address'],
+                'timezone' => $item['timezone']
+            ]);
+    }
 }
